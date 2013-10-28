@@ -65,7 +65,7 @@ class Restable {
         {
             array_walk_recursive($returned['response'], function(&$v, $k) use ($data)
             {
-                if ($v == ':content') $v = $data;
+                if ($v == ':response') $v = $data;
             });
         }
         else

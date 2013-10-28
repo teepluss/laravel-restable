@@ -12,9 +12,7 @@ return array(
     */
 
     'listing' => array(
-        'response' => array(
-            ':content'
-        ),
+        'response' => ':response',
         'header'   => 200
     ),
 
@@ -29,7 +27,7 @@ return array(
     */
 
     'show' => array(
-        'response' => ':content',
+        'response' => ':response',
         'header'   => 200
     ),
 
@@ -44,7 +42,7 @@ return array(
     */
 
     'created' => array(
-        'response' => ':content',
+        'response' => ':response',
         'header'   => 201
     ),
 
@@ -59,7 +57,7 @@ return array(
     */
 
     'updated' => array(
-        'response' => ':content',
+        'response' => ':response',
         'header'   => 200
     ),
 
@@ -92,7 +90,7 @@ return array(
         'response' => array(
             'code'        => 400,
             'message'     => 'Bad Request',
-            'description' => ':content'
+            'description' => ':response'
         ),
         'header'   => 400
     ),
@@ -226,7 +224,7 @@ return array(
             'code'       => 422,
             'message'    => 'Unprocessable Entity',
             'decription' => 'Data cannot be processing.',
-            'errors'     => ':content'
+            'errors'     => ':response'
         ),
         'header'   => 422
     ),
