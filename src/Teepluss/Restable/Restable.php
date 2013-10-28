@@ -164,6 +164,17 @@ class Restable {
     }
 
     /**
+     * Alias of error 422 response.
+     *
+     * @param  array  $error
+     * @return string
+     */
+    public function unprocess($errors)
+    {
+        return $this->error_422($errors);
+    }
+
+    /**
      * Validation error.
      *
      * @param  array  $messages

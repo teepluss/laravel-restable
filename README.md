@@ -85,7 +85,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::error($validator, 422);
+            return Restable::unprocess($validator);
         }
 
         $blog->title = Input::get('title');
@@ -154,7 +154,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::error($validator, 422);
+            return Restable::unprocess($validator);
         }
 
         $blog->title = Input::get('title');
