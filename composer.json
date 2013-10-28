@@ -1,0 +1,23 @@
+{
+    "name": "teepluss/restable",
+    "description": "",
+    "authors": [
+        {
+            "name": "Teepluss",
+            "email": "admin@laravel.in.th"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Teepluss\\Restable": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
