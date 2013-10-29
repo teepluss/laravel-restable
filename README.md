@@ -57,12 +57,12 @@ class ApiBlogsController extends BaseController {
      */
     public function index()
     {
-
         // Set default response format.
         //Restable::setDefaultFormat('xml');
 
         // Override format response.
-        //return Restable::listing(Blog::paginate())->render('php');
+        //return Restable::listing(Blog::paginate())->to('xml');
+        //return Restable::listing(Blog::paginate())->toXML();
 
         return Restable::listing(Blog::paginate())->render();
     }

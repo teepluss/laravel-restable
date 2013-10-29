@@ -3,7 +3,6 @@
 use Illuminate\Config\Repository;
 use Illuminate\Support\MessageBag as MessageBag;
 use Illuminate\Support\Facades\Response as LaravelResponse;
-use Abishekrsrikaanth\ExportToAny\ExportToAny;
 
 class Restable {
 
@@ -14,6 +13,11 @@ class Restable {
      */
     protected $config;
 
+    /**
+     * Format to response.
+     *
+     * @var string
+     */
     protected $format = 'json';
 
     /**
@@ -53,6 +57,11 @@ class Restable {
         $this->codes = $this->config->get('restable::codes');
     }
 
+    /**
+     * Set default response format.
+     *
+     * @param string $format
+     */
     public function setDefaultFormat($format)
     {
         $this->format = $format;
@@ -88,7 +97,7 @@ class Restable {
             $returned['response'] = $data;
         }
 
-        $this->returned = $returned; //$this->response->make($returned['response'], $returned['header']);
+        $this->returned = $returned;
 
         return $this;
     }
@@ -241,14 +250,32 @@ class Restable {
      */
     public function __call($method, $arguments = array())
     {
+        // Make error response.
         if (preg_match('/^error_/', $method))
         {
             $arguments[] = $method;
 
             return call_user_func_array(array($this, 'make'), $arguments);
         }
+
+        // Return response with specific format.
+        if (preg_match('/^to(.*)$/', $method, $matches))
+        {
+            $format = strtolower($matches[1]);
+
+            if (in_array($format, array('json', 'xml', 'php', 'csv', 'serialized')))
+            {
+                return $this->to($format);
+            }
+        }
     }
 
+    /**
+     * Render response with format.
+     *
+     * @param  string $format
+     * @return mixed
+     */
     public function render($format = null)
     {
         $format = ($format) ?: $this->format;
@@ -269,24 +296,29 @@ class Restable {
                     'content' => Format::factory($returned['response'])->toXML()
                 );
                 break;
-            case 'csv' :
-                $data = array(
-                    'type'    => 'text/plain',
-                    'content' => Format::factory($returned['response']['entries'])->toCSV()
-                );
-                break;
-            case 'serialized' :
-                $data = array(
-                    'type'    => 'text/plain',
-                    'content' => Format::factory($returned['response'])->toSerialized()
-                );
-                break;
+
             case 'php' :
                 $data = array(
                     'type'    => 'text/plain',
                     'content' => Format::factory($returned['response'])->toPHP()
                 );
                 break;
+
+            case 'serialized' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => Format::factory($returned['response'])->toSerialized()
+                );
+                break;
+
+            case 'csv' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => Format::factory($returned['response']['entries'])->toCSV()
+                );
+                break;
+
+            case 'json' :
             default :
                 $data = array(
                     'type'    => 'application/json',
@@ -295,11 +327,24 @@ class Restable {
                 break;
         }
 
+        // Making response.
         $response = $this->response->make($data['content'], $returned['header']);
 
+        // Set content header.
         $response->header('Content-Type', $data['type']);
 
         return $response;
+    }
+
+    /**
+     * Alias of render.
+     *
+     * @param  string $format
+     * @return mixed
+     */
+    public function to($format)
+    {
+        return $this->render($format);
     }
 
 }
