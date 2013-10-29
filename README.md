@@ -1,6 +1,7 @@
 ## RESTful format response for Laravel 4
 
-Restable is a useful to create RESTful API response format.
+Restable is a useful to create RESTful API response format that support multiple format, such as Json, XML
+CSV, Serialized, PHP.
 
 ### Installation
 
@@ -56,7 +57,14 @@ class ApiBlogsController extends BaseController {
      */
     public function index()
     {
-        return Restable::listing(Blog::paginate());
+
+        // Set default response format.
+        //Restable::setDefaultFormat('xml');
+
+        // Override format response.
+        //return Restable::listing(Blog::paginate())->render('php');
+
+        return Restable::listing(Blog::paginate())->render();
     }
 
     /**
@@ -85,7 +93,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::unprocess($validator);
+            return Restable::unprocess($validator)->render();
         }
 
         $blog->title = Input::get('title');
@@ -93,7 +101,7 @@ class ApiBlogsController extends BaseController {
 
         $blog->save();
 
-        return Restable::created($blog);
+        return Restable::created($blog)->render();
     }
 
     /**
@@ -108,10 +116,10 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing();
+            return Restable::missing()->render();
         }
 
-        return Restable::show($blog);
+        return Restable::single($blog)->render();
     }
 
     /**
@@ -126,7 +134,7 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing();
+            return Restable::missing()->render();
         }
 
         return View::make('api.blogs.edit', compact('blog'));
@@ -144,7 +152,7 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing();
+            return Restable::missing()->render();
         }
 
         $validator = Validator::make(Input::all(), array(
@@ -154,7 +162,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::unprocess($validator);
+            return Restable::unprocess($validator)->render();
         }
 
         $blog->title = Input::get('title');
@@ -162,7 +170,7 @@ class ApiBlogsController extends BaseController {
 
         $blog->save();
 
-        return Restable::updated($blog);
+        return Restable::updated($blog)->render();
     }
 
     /**
@@ -177,12 +185,12 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing();
+            return Restable::missing()->render();
         }
 
         $blog->delete();
 
-        return Restable::deleted();
+        return Restable::deleted()->render();
     }
 
 }

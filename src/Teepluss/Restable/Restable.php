@@ -3,6 +3,7 @@
 use Illuminate\Config\Repository;
 use Illuminate\Support\MessageBag as MessageBag;
 use Illuminate\Support\Facades\Response as LaravelResponse;
+use Abishekrsrikaanth\ExportToAny\ExportToAny;
 
 class Restable {
 
@@ -12,6 +13,8 @@ class Restable {
      * @var \Illuminate\Config\Repository
      */
     protected $config;
+
+    protected $format = 'json';
 
     /**
      * Laravel response.
@@ -28,6 +31,13 @@ class Restable {
     protected $codes = array();
 
     /**
+     * API responsed.
+     *
+     * @var mixed
+     */
+    protected $returned;
+
+    /**
      * Constructor.
      *
      * @param \Illuminate\Config\Repository        $config
@@ -41,6 +51,11 @@ class Restable {
 
         // Response format.
         $this->codes = $this->config->get('restable::codes');
+    }
+
+    public function setDefaultFormat($format)
+    {
+        $this->format = $format;
     }
 
     /**
@@ -73,7 +88,9 @@ class Restable {
             $returned['response'] = $data;
         }
 
-        return $this->response->make($returned['response'], $returned['header']);
+        $this->returned = $returned; //$this->response->make($returned['response'], $returned['header']);
+
+        return $this;
     }
 
     /**
@@ -95,7 +112,7 @@ class Restable {
      * @param  array  $messages
      * @return string
      */
-    public function show($messages)
+    public function single($messages)
     {
         $content = $messages;
 
@@ -230,6 +247,59 @@ class Restable {
 
             return call_user_func_array(array($this, 'make'), $arguments);
         }
+    }
+
+    public function render($format = null)
+    {
+        $format = ($format) ?: $this->format;
+
+        $returned = $this->returned;
+
+        if (isset($returned['response']['data']))
+        {
+            $returned['response']['entries'] = $returned['response']['data'];
+            unset($returned['response']['data']);
+        }
+
+        switch ($format)
+        {
+            case 'xml' :
+                $data = array(
+                    'type'    => 'application/xml',
+                    'content' => Format::factory($returned['response'])->toXML()
+                );
+                break;
+            case 'csv' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => Format::factory($returned['response']['entries'])->toCSV()
+                );
+                break;
+            case 'serialized' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => Format::factory($returned['response'])->toSerialized()
+                );
+                break;
+            case 'php' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => Format::factory($returned['response'])->toPHP()
+                );
+                break;
+            default :
+                $data = array(
+                    'type'    => 'application/json',
+                    'content' => Format::factory($returned['response'])->toJson()
+                );
+                break;
+        }
+
+        $response = $this->response->make($data['content'], $returned['header']);
+
+        $response->header('Content-Type', $data['type']);
+
+        return $response;
     }
 
 }
