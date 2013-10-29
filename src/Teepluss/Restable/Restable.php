@@ -263,7 +263,7 @@ class Restable {
         {
             $format = strtolower($matches[1]);
 
-            if (in_array($format, array('json', 'xml', 'php', 'csv', 'serialized')))
+            if (in_array($format, array('json', 'xml', 'php', 'serialized')))
             {
                 return $this->to($format);
             }
@@ -282,15 +282,16 @@ class Restable {
 
         $returned = $this->returned;
 
-        if (isset($returned['response']['data']))
-        {
-            $returned['response']['entries'] = $returned['response']['data'];
-            unset($returned['response']['data']);
-        }
-
         switch ($format)
         {
             case 'xml' :
+
+                if (isset($returned['response']['data']))
+                {
+                    $returned['response']['entries'] = $returned['response']['data'];
+                    unset($returned['response']['data']);
+                }
+
                 $data = array(
                     'type'    => 'application/xml',
                     'content' => Format::factory($returned['response'])->toXML()
@@ -310,14 +311,6 @@ class Restable {
                     'content' => Format::factory($returned['response'])->toSerialized()
                 );
                 break;
-
-            case 'csv' :
-                $data = array(
-                    'type'    => 'text/plain',
-                    'content' => Format::factory($returned['response']['entries'])->toCSV()
-                );
-                break;
-
             case 'json' :
             default :
                 $data = array(

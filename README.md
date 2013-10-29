@@ -1,7 +1,7 @@
 ## RESTful format response for Laravel 4
 
 Restable is a useful to create RESTful API response format that support multiple format, such as Json, XML
-CSV, Serialized, PHP.
+Serialized, PHP.
 
 ### Installation
 
