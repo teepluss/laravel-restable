@@ -1,6 +1,6 @@
 ## RESTful format response for Laravel 4
 
-Restable is a useful to create RESTful response format.
+Restable is a useful to create RESTful API response format.
 
 ### Installation
 

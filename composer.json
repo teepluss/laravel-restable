@@ -1,6 +1,6 @@
 {
     "name": "teepluss/restable",
-    "description": "Laravel4 Restful Response Format",
+    "description": "Laravel4 RESTful API format",
     "keywords": ["laravel", "laravel4", "restful", "api"],
     "homepage": "https://github.com/teepluss/laravel4-restable",
     "type": "library",
