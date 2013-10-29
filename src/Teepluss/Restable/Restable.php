@@ -153,6 +153,17 @@ class Restable {
     }
 
     /**
+     * Any error return 400 as bad request.
+     *
+     * @param  mixed  $description
+     * @return string
+     */
+    public function bad($description)
+    {
+        return $this->error($description, 'bad');
+    }
+
+    /**
      * Alias of error 404 response.
      *
      * @param  array  $messages
@@ -160,7 +171,7 @@ class Restable {
      */
     public function missing()
     {
-        return $this->make(null, 'error_404');
+        return $this->error(null, 404);
     }
 
     /**
@@ -171,7 +182,7 @@ class Restable {
      */
     public function unprocess($errors)
     {
-        return $this->error_422($errors);
+        return $this->error($errors, 422);
     }
 
     /**

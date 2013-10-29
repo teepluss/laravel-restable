@@ -86,7 +86,7 @@ return array(
     |
     */
 
-    'error_custom' => array(
+    'error_bad' => array(
         'response' => array(
             'code'        => 400,
             'message'     => 'Bad Request',
