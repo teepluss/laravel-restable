@@ -109,7 +109,7 @@ return array(
         'response' => array(
             'code'        => 400,
             'message'     => 'Bad Request',
-            'description' => 'The request is malformed.'
+            'description' => 'The request was invalid or cannot be otherwise served.'
         ),
         'header'   => 400
     ),
@@ -128,7 +128,7 @@ return array(
         'response' => array(
             'code'        => 401,
             'message'     => 'Unauthorized',
-            'description' => 'Invalid authentication.'
+            'description' => 'Authentication credentials were missing or incorrect.'
         ),
         'header'   => 401
     ),
@@ -147,7 +147,7 @@ return array(
         'response' => array(
             'code'        => 403,
             'message'     => 'Forbidden',
-            'description' => 'Cannot access.'
+            'description' => 'The request is understood, but it has been refused or access is not allowed.'
         ),
         'header'   => 403
     ),
@@ -193,6 +193,25 @@ return array(
 
     /*
     |--------------------------------------------------------------------------
+    | Error 406
+    |--------------------------------------------------------------------------
+    |
+    | Not Acceptable.
+    |
+    */
+
+    'error_406' => array(
+        'response' => array(
+            'code'        => 406,
+            'message'     => 'Not Acceptable',
+            'description' => 'Returned when an invalid format is specified in the request.'
+        ),
+        'header'   => 406
+    ),
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Error 410
     |--------------------------------------------------------------------------
     |
@@ -204,7 +223,7 @@ return array(
         'response' => array(
             'code'        => 410,
             'message'     => 'Gone',
-            'description' => 'This end point is no longer available.'
+            'description' => 'TThis resource is gone. Used to indicate that an API endpoint has been turned off.'
         ),
         'header'   => 410
     ),
@@ -223,7 +242,7 @@ return array(
         'response' => array(
             'code'       => 422,
             'message'    => 'Unprocessable Entity',
-            'decription' => 'Data cannot be processing.',
+            'decription' => 'Data is unable to be processed.',
             'errors'     => ':response'
         ),
         'header'   => 422
@@ -243,7 +262,7 @@ return array(
         'response' => array(
             'code'        => 429,
             'message'     => 'Too Many Requests',
-            'description' => 'Request is rejected due to rate limiting.'
+            'description' => 'Request cannot be served due to the application\'s rate limit having been exhausted for the resource.'
         ),
         'header'   => 429
     )
