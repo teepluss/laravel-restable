@@ -38,7 +38,9 @@ class RestableServiceProvider extends ServiceProvider {
 		{
 			$response = new Response;
 
-			return new Restable($app['config'], $response);
+			$converter = new Format;
+
+			return new Restable($app['config'], $response, $converter);
 		});
 	}
 

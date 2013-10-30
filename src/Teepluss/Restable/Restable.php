@@ -1,5 +1,6 @@
 <?php namespace Teepluss\Restable;
 
+use Teepluss\Restable\Format;
 use Illuminate\Config\Repository;
 use Illuminate\Support\MessageBag as MessageBag;
 use Illuminate\Support\Facades\Response as LaravelResponse;
@@ -28,6 +29,13 @@ class Restable {
     protected $response;
 
     /**
+     * Converter.
+     *
+     * @var \Teepluss\Restable\Format
+     */
+    protected $converter;
+
+    /**
      * Config codes.
      *
      * @var array
@@ -46,12 +54,15 @@ class Restable {
      *
      * @param \Illuminate\Config\Repository        $config
      * @param \Illuminate\Support\Facades\Response $response
+     * @param \Teepluss\Restable\Format            $converter
      */
-    public function __construct(Repository $config, LaravelResponse $response)
+    public function __construct(Repository $config, LaravelResponse $response, Format $converter)
     {
         $this->config = $config;
 
         $this->response = $response;
+
+        $this->converter = $converter;
 
         // Response format.
         $this->codes = $this->config->get('restable::codes');
@@ -242,6 +253,76 @@ class Restable {
     }
 
     /**
+     * Render response with format.
+     *
+     * @param  string $format
+     * @return mixed
+     */
+    public function render($format = null)
+    {
+        $format = ($format) ?: $this->format;
+
+        $returned = $this->returned;
+
+        switch ($format)
+        {
+            case 'xml' :
+
+                if (isset($returned['response']['data']))
+                {
+                    $returned['response']['entries'] = $returned['response']['data'];
+                    unset($returned['response']['data']);
+                }
+
+                $data = array(
+                    'type'    => 'application/xml',
+                    'content' => $this->converter->factory($returned['response'])->toXML()
+                );
+                break;
+
+            case 'php' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => $this->converter->factory($returned['response'])->toPHP()
+                );
+                break;
+
+            case 'serialized' :
+                $data = array(
+                    'type'    => 'text/plain',
+                    'content' => $this->converter->factory($returned['response'])->toSerialized()
+                );
+                break;
+            case 'json' :
+            default :
+                $data = array(
+                    'type'    => 'application/json',
+                    'content' => $this->converter->factory($returned['response'])->toJson()
+                );
+                break;
+        }
+
+        // Making response.
+        $response = $this->response->make($data['content'], $returned['header']);
+
+        // Set content header.
+        $response->header('Content-Type', $data['type']);
+
+        return $response;
+    }
+
+    /**
+     * Alias of render.
+     *
+     * @param  string $format
+     * @return mixed
+     */
+    public function to($format)
+    {
+        return $this->render($format);
+    }
+
+    /**
      * Response any error types.
      *
      * @param  string $method
@@ -268,76 +349,6 @@ class Restable {
                 return $this->to($format);
             }
         }
-    }
-
-    /**
-     * Render response with format.
-     *
-     * @param  string $format
-     * @return mixed
-     */
-    public function render($format = null)
-    {
-        $format = ($format) ?: $this->format;
-
-        $returned = $this->returned;
-
-        switch ($format)
-        {
-            case 'xml' :
-
-                if (isset($returned['response']['data']))
-                {
-                    $returned['response']['entries'] = $returned['response']['data'];
-                    unset($returned['response']['data']);
-                }
-
-                $data = array(
-                    'type'    => 'application/xml',
-                    'content' => Format::factory($returned['response'])->toXML()
-                );
-                break;
-
-            case 'php' :
-                $data = array(
-                    'type'    => 'text/plain',
-                    'content' => Format::factory($returned['response'])->toPHP()
-                );
-                break;
-
-            case 'serialized' :
-                $data = array(
-                    'type'    => 'text/plain',
-                    'content' => Format::factory($returned['response'])->toSerialized()
-                );
-                break;
-            case 'json' :
-            default :
-                $data = array(
-                    'type'    => 'application/json',
-                    'content' => Format::factory($returned['response'])->toJson()
-                );
-                break;
-        }
-
-        // Making response.
-        $response = $this->response->make($data['content'], $returned['header']);
-
-        // Set content header.
-        $response->header('Content-Type', $data['type']);
-
-        return $response;
-    }
-
-    /**
-     * Alias of render.
-     *
-     * @param  string $format
-     * @return mixed
-     */
-    public function to($format)
-    {
-        return $this->render($format);
     }
 
 }

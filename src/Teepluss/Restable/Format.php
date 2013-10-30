@@ -82,7 +82,7 @@ class Format {
     }
 
     // Format XML for output
-    public function toXML($data = null, $structure = null, $basenode = 'xml')
+    public function toXML($data = null, $structure = null, $basenode = 'result')
     {
         if ($data === null and ! func_num_args())
         {
