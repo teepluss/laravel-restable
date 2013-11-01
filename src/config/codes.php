@@ -223,7 +223,7 @@ return array(
         'response' => array(
             'code'        => 410,
             'message'     => 'Gone',
-            'description' => 'TThis resource is gone. Used to indicate that an API endpoint has been turned off.'
+            'description' => 'This resource is gone. Used to indicate that an API endpoint has been turned off.'
         ),
         'header'   => 410
     ),
