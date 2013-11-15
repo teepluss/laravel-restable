@@ -233,7 +233,7 @@ class Restable {
         // Get validation message bag.
         if ( ! $messages instanceOf MessageBag)
         {
-            $messages = $messages->getMessageBag();
+            $messages = new MessageBag($messages);
         }
 
         $content = array();
