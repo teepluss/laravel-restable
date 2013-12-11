@@ -2,7 +2,8 @@
 
 use Teepluss\Restable\Format;
 use Illuminate\Config\Repository;
-use Illuminate\Support\MessageBag as MessageBag;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Contracts\MessageProviderInterface;
 use Illuminate\Support\Facades\Response as LaravelResponse;
 
 class Restable {
@@ -230,6 +231,12 @@ class Restable {
      */
     protected function error_422($messages)
     {
+        // Get message bag from validator.
+        if ($messages instanceof MessageProviderInterface)
+        {
+            $messages = $messages->getMessageBag();
+        }
+
         // Get validation message bag.
         if ( ! $messages instanceOf MessageBag)
         {
