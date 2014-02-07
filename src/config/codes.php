@@ -76,26 +76,6 @@ return array(
         'header'   => 204
     ),
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Error 400
-    |--------------------------------------------------------------------------
-    |
-    | Bad Request with custom description.
-    |
-    */
-
-    'error_bad' => array(
-        'response' => array(
-            'code'        => 400,
-            'message'     => 'Bad Request',
-            'description' => ':response'
-        ),
-        'header'   => 400
-    ),
-
-
     /*
     |--------------------------------------------------------------------------
     | Error 400
@@ -109,7 +89,7 @@ return array(
         'response' => array(
             'code'        => 400,
             'message'     => 'Bad Request',
-            'description' => 'The request was invalid or cannot be otherwise served.'
+            'description' => ':response|The request was invalid or cannot be otherwise served.'
         ),
         'header'   => 400
     ),
@@ -128,7 +108,7 @@ return array(
         'response' => array(
             'code'        => 401,
             'message'     => 'Unauthorized',
-            'description' => 'Authentication credentials were missing or incorrect.'
+            'description' => ':response|Authentication credentials were missing or incorrect.'
         ),
         'header'   => 401
     ),
@@ -147,7 +127,7 @@ return array(
         'response' => array(
             'code'        => 403,
             'message'     => 'Forbidden',
-            'description' => 'The request is understood, but it has been refused or access is not allowed.'
+            'description' => ':response|The request is understood, but it has been refused or access is not allowed.'
         ),
         'header'   => 403
     ),
@@ -166,7 +146,7 @@ return array(
         'response' => array(
             'code'        => 404,
             'message'     => 'Not found',
-            'description' => 'The request was not found.'
+            'description' => ':response|The request was not found.'
         ),
         'header'   => 404
     ),
@@ -185,7 +165,7 @@ return array(
         'response' => array(
             'code'        => 405,
             'message'     => 'Method Not Allowed',
-            'description' => 'Request method is not allowed.'
+            'description' => ':response|Request method is not allowed.'
         ),
         'header'   => 405
     ),
@@ -204,7 +184,7 @@ return array(
         'response' => array(
             'code'        => 406,
             'message'     => 'Not Acceptable',
-            'description' => 'Returned when an invalid format is specified in the request.'
+            'description' => ':response|Returned when an invalid format is specified in the request.'
         ),
         'header'   => 406
     ),
@@ -223,7 +203,7 @@ return array(
         'response' => array(
             'code'        => 410,
             'message'     => 'Gone',
-            'description' => 'This resource is gone. Used to indicate that an API endpoint has been turned off.'
+            'description' => ':response|This resource is gone. Used to indicate that an API endpoint has been turned off.'
         ),
         'header'   => 410
     ),
@@ -262,7 +242,7 @@ return array(
         'response' => array(
             'code'        => 429,
             'message'     => 'Too Many Requests',
-            'description' => 'Request cannot be served due to the application\'s rate limit having been exhausted for the resource.'
+            'description' => ':response|Request cannot be served due to the application\'s rate limit having been exhausted for the resource.'
         ),
         'header'   => 429
     )

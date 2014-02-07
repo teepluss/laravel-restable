@@ -101,7 +101,17 @@ class Restable {
         {
             array_walk_recursive($returned['response'], function(&$v, $k) use ($data)
             {
-                if ($v == ':response') $v = $data;
+                if (preg_match('/:response/', $v))
+                {
+                    if (! is_null($data) or is_array($data))
+                    {
+                        $v = $data;
+                    }
+                    else
+                    {
+                        $v = preg_replace('/:response\|?/', '', $v);
+                    }
+                }
             });
         }
         else
@@ -183,11 +193,22 @@ class Restable {
      * @param  array  $messages
      * @return string
      */
-    public function error($messages, $type = 422)
+    public function error($messages, $type = 400)
     {
         $alias = 'error_'.$type;
 
         return $this->$alias($messages);
+    }
+
+    /**
+     * Unauthorized.
+     *
+     * @param  mixed $description
+     * @return string
+     */
+    public function unauthorized($description = null)
+    {
+        return $this->error($description, 401);
     }
 
     /**
@@ -196,9 +217,9 @@ class Restable {
      * @param  mixed  $description
      * @return string
      */
-    public function bad($description)
+    public function bad($description = null)
     {
-        return $this->error($description, 'bad');
+        return $this->error($description, 400);
     }
 
     /**
@@ -207,9 +228,9 @@ class Restable {
      * @param  array  $messages
      * @return string
      */
-    public function missing()
+    public function missing($description = null)
     {
-        return $this->error(null, 404);
+        return $this->error($description, 404);
     }
 
     /**

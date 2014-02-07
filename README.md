@@ -51,6 +51,19 @@ Example:
 class ApiBlogsController extends BaseController {
 
     /**
+     * Checking permission.
+     *
+     * @return Response
+     */
+    public function __construct()
+    {
+        if ( ! Input::get() == '12345')
+        {
+            return Restable::unauthorized()->render();
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return Response
