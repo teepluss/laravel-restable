@@ -37,6 +37,13 @@ class Restable {
     protected $converter;
 
     /**
+     * Code number for handle error.
+     *
+     * @var integer
+     */
+    protected $code;
+
+    /**
      * Config codes.
      *
      * @var array
@@ -84,7 +91,7 @@ class Restable {
      *
      * @param  array  $data
      * @param  string $type
-     * @return string
+     * @return \Teepluss\Restable\Restable
      */
     protected function make($data, $type)
     {
@@ -120,6 +127,19 @@ class Restable {
         }
 
         $this->returned = $returned;
+
+        return $this;
+    }
+
+    /**
+     * Change code number.
+     *
+     * @param  integer $code
+     * @return \Teepluss\Restable\Restable
+     */
+    public function code($code)
+    {
+        $this->code = $code;
 
         return $this;
     }
@@ -291,6 +311,12 @@ class Restable {
         $format = ($format) ?: $this->format;
 
         $returned = $this->returned;
+
+        // Change error code number.
+        if ($this->code and isset($returned['response']['code']))
+        {
+            $returned['response']['code'] = $this->code;
+        }
 
         switch ($format)
         {

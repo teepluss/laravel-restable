@@ -209,6 +209,12 @@ class ApiBlogsController extends BaseController {
 }
 ~~~
 
+Changing error code.
+
+~~~php
+return Restable::code(9001)->bad('message')->render();
+~~~
+
 ## Support or Contact
 
 If you have some problem, Contact teepluss@gmail.com
