@@ -347,19 +347,21 @@ class Restable {
                     'content' => $this->converter->factory($returned['response'])->toSerialized()
                 );
                 break;
+            // In case JSON we don't need to convert anything.
             case 'json' :
             default :
-                $data = array(
-                    'type'    => 'application/json',
-                    'content' => $this->converter->factory($returned['response'])->toJson()
-                );
+                $response = $this->response->json($returned['response']);
+                if (isset($_GET['callback']))
+                {
+                    $response = $response->setCallback($_GET['callback']);
+                }
+                return $response;
                 break;
         }
 
         // Making response.
         $response = $this->response->make($data['content'], $returned['header']);
 
-        // Set content header.
         $response->header('Content-Type', $data['type']);
 
         return $response;
