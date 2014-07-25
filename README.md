@@ -219,21 +219,21 @@ Render to another format.
 
 ~~~php
 // XML
-return Restable::code(9001)->bad('message')->render('xml');
+return Restable::single($data)->render('xml');
 
 // Serialized
-return Restable::code(9001)->bad('message')->render('serialized');
+return Restable::single($data)->render('serialized');
 
 // PHP
-return Restable::code(9001)->bad('message')->render('php');
+return Restable::single($data)->render('php');
 
 // JSON
-return Restable::code(9001)->bad('message')->render('json');
+return Restable::single($data)->render('json');
 
 // JSONP
-return Restable::code(9001)->bad('message')->render('json', Input::get('callback'));
+return Restable::single($data)->render('json', Input::get('callback'));
 // OR
-return Restable::code(9001)->bad('message')->toJson(Input::get('callback'));
+return Restable::single($data)->toJson(Input::get('callback'));
 ~~~
 
 ## Support or Contact
