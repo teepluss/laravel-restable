@@ -215,6 +215,27 @@ Changing error code.
 return Restable::code(9001)->bad('message')->render();
 ~~~
 
+Render to another format.
+
+~~~php
+// XML
+return Restable::code(9001)->bad('message')->render('xml');
+
+// Serialized
+return Restable::code(9001)->bad('message')->render('serialized');
+
+// PHP
+return Restable::code(9001)->bad('message')->render('php');
+
+// JSON
+return Restable::code(9001)->bad('message')->render('json');
+
+// JSONP
+return Restable::code(9001)->bad('message')->render('json', Input::get('callback'));
+// OR
+return Restable::code(9001)->bad('message')->toJson(Input::get('callback'));
+~~~
+
 ## Support or Contact
 
 If you have some problem, Contact teepluss@gmail.com

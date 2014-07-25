@@ -306,7 +306,7 @@ class Restable {
      * @param  string $format
      * @return mixed
      */
-    public function render($format = null)
+    public function render($format = null, $callback = null)
     {
         $format = ($format) ?: $this->format;
 
@@ -351,9 +351,9 @@ class Restable {
             case 'json' :
             default :
                 $response = $this->response->json($returned['response']);
-                if (isset($_GET['callback']))
+                if ($callback)
                 {
-                    $response = $response->setCallback($_GET['callback']);
+                    $response = $response->setCallback($callback);
                 }
                 return $response;
                 break;
@@ -373,9 +373,9 @@ class Restable {
      * @param  string $format
      * @return mixed
      */
-    public function to($format)
+    public function to($format, $callback = null)
     {
-        return $this->render($format);
+        return $this->render($format, $callback);
     }
 
     /**
@@ -400,9 +400,11 @@ class Restable {
         {
             $format = strtolower($matches[1]);
 
+            $callback = $arguments[0];
+
             if (in_array($format, array('json', 'xml', 'php', 'serialized')))
             {
-                return $this->to($format);
+                return $this->to($format, $callback);
             }
         }
     }
