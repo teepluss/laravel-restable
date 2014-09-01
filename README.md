@@ -209,14 +209,30 @@ class ApiBlogsController extends BaseController {
 }
 ~~~
 
-Changing error code.
+Error cases.
+~~~php
+// Unauthorized.
+Restable::unauthorized()->render();
 
+// Bad request.
+Restable::bad()->render();
+
+// Missing, Not found.
+Restable::missing()->render();
+
+// Unprocess, Validation Failed.
+Restable::unprocess()->render();
+
+// Custom.
+Restable::error(null, 429)->render();
+~~~
+
+Changing error code.
 ~~~php
 return Restable::code(9001)->bad('message')->render();
 ~~~
 
 Render to another format.
-
 ~~~php
 // XML
 return Restable::single($data)->render('xml');
