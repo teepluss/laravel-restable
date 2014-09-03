@@ -350,7 +350,7 @@ class Restable {
             // In case JSON we don't need to convert anything.
             case 'json' :
             default :
-                $response = $this->response->json($returned['response']);
+                $response = $this->response->json($returned['response'], $returned['header']);
                 if ($callback)
                 {
                     $response = $response->setCallback($callback);
