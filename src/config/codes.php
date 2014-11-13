@@ -220,10 +220,10 @@ return array(
 
     'error_422' => array(
         'response' => array(
-            'code'       => 422,
-            'message'    => 'Unprocessable Entity',
-            'decription' => 'Data is unable to be processed.',
-            'errors'     => ':response'
+            'code'        => 422,
+            'message'     => 'Unprocessable Entity',
+            'description' => 'Data is unable to be processed.',
+            'errors'      => ':response'
         ),
         'header'   => 422
     ),
