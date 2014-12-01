@@ -110,14 +110,7 @@ class Restable {
             {
                 if (preg_match('/:response/', $v))
                 {
-                    if (! is_null($data) or is_array($data))
-                    {
-                        $v = $data;
-                    }
-                    else
-                    {
-                        $v = preg_replace('/:response\|?/', '', $v);
-                    }
+                    $v = ( ! is_null($data) or is_array($data)) ? $data : preg_replace('/:response\|?/', '', $v);
                 }
             });
         }
