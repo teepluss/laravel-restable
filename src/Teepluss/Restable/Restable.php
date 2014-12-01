@@ -351,10 +351,13 @@ class Restable {
             case 'json' :
             default :
                 $response = $this->response->json($returned['response'], $returned['header']);
+
+                // Support JSONP Response.
                 if ($callback)
                 {
                     $response = $response->setCallback($callback);
                 }
+
                 return $response;
                 break;
         }
