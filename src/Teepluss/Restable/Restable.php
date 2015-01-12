@@ -201,6 +201,19 @@ class Restable {
     }
 
     /**
+     * Simple response success.
+     *
+     * @param  mixed  $message
+     * @return string
+     */
+    public function success($message)
+    {
+        $content = $message;
+
+        return $this->make($content, 'success');
+    }
+
+    /**
      * Response error.
      *
      * @param  array  $messages

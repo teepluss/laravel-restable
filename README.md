@@ -227,6 +227,11 @@ Restable::unprocess()->render();
 Restable::error(null, 429)->render();
 ~~~
 
+Another success cases.
+~~~php
+return Restable::success()->render();
+~~~
+
 Changing error code.
 ~~~php
 return Restable::code(9001)->bad('message')->render();
