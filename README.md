@@ -8,7 +8,7 @@ Serialized, PHP.
 ### Installation
 
 - [Restable on Packagist](https://packagist.org/packages/teepluss/restable)
-- [Restable on GitHub](https://github.com/teepluss/laravel4-restable)
+- [Restable on GitHub](https://github.com/teepluss/laravel-restable)
 
 To get the lastest version of Theme simply require it in your `composer.json` file.
 
