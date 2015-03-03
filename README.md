@@ -1,12 +1,14 @@
 ## RESTful format response for Laravel
 
+### For Laravel 4, please use the [v1.x branch](https://github.com/teepluss/laravel-restable/tree/v1.x)!
+
 Restable is a useful to create RESTful API response format that support multiple format, such as Json, XML
 Serialized, PHP.
 
 ### Installation
 
 - [Restable on Packagist](https://packagist.org/packages/teepluss/restable)
-- [Restable on GitHub](https://github.com/teepluss/laravel4-restable)
+- [Restable on GitHub](https://github.com/teepluss/laravel-restable)
 
 To get the lastest version of Theme simply require it in your `composer.json` file.
 
