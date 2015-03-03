@@ -11,7 +11,7 @@ Serialized, PHP.
 To get the lastest version of Theme simply require it in your `composer.json` file.
 
 ~~~
-"teepluss/restable": "dev-develop"
+"teepluss/restable": "dev-master"
 ~~~
 
 You'll then need to run `composer install` to download it and have the autoloader updated.
