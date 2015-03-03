@@ -57,7 +57,7 @@ class ApiBlogsController extends BaseController {
      */
     public function __construct()
     {
-        if ( ! Input::get() == '12345')
+        if ( ! Input::get('secret') == '12345')
         {
             return Restable::unauthorized()->render();
         }
