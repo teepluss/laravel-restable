@@ -39,7 +39,7 @@ Restable also ships with a facade which provides the static syntax for creating 
 Publish config using artisan CLI.
 
 ~~~
-php artisan config:publish teepluss/restable
+php artisan vendor:publish
 ~~~
 
 ## Usage
