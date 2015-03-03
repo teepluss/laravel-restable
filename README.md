@@ -1,4 +1,4 @@
-## RESTful format response for Laravel 4
+## RESTful format response for Laravel
 
 Restable is a useful to create RESTful API response format that support multiple format, such as Json, XML
 Serialized, PHP.
@@ -11,7 +11,7 @@ Serialized, PHP.
 To get the lastest version of Theme simply require it in your `composer.json` file.
 
 ~~~
-"teepluss/restable": "dev-master"
+"teepluss/restable": "dev-develop"
 ~~~
 
 You'll then need to run `composer install` to download it and have the autoloader updated.
