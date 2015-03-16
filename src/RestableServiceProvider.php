@@ -39,11 +39,9 @@ class RestableServiceProvider extends ServiceProvider {
 
 		$this->app['restable'] = $this->app->share(function($app)
 		{
-			$response = new ResponseFactory;
+			$response = $app['Illuminate\Contracts\Routing\ResponseFactory'];
 
-			$converter = new Format;
-
-			return new Restable($app['config'], $response, $converter);
+			return new Restable($app['config'], $response, new Format);
 		});
 	}
 

@@ -4,7 +4,7 @@ use Teepluss\Restable\Format;
 use Illuminate\Config\Repository;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Contracts\MessageProviderInterface;
-use Illuminate\Support\Facades\Response as LaravelResponse;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class Restable {
 
@@ -25,7 +25,7 @@ class Restable {
     /**
      * Laravel response.
      *
-     * @var \Illuminate\Support\Facades\Response
+     * @var \Illuminate\Contracts\Routing\ResponseFactory
      */
     protected $response;
 
@@ -61,16 +61,14 @@ class Restable {
      * Constructor.
      *
      * @param \Illuminate\Config\Repository        $config
-     * @param \Illuminate\Support\Facades\Response $response
+     * @param \Illuminate\Contracts\Routing\ResponseFactory $response
      * @param \Teepluss\Restable\Format            $converter
      */
-    public function __construct(Repository $config, LaravelResponse $response, Format $converter)
+    public function __construct(Repository $config, ResponseFactory $response, Format $converter)
     {
         $this->config = $config;
 
         $this->response = $response;
-
-        //dd(get_class_methods($response));
 
         $this->converter = $converter;
 
