@@ -37,19 +37,16 @@ class RestableServiceProvider extends ServiceProvider {
         // Merge config to allow user overwrite.
         $this->mergeConfigFrom($configPath, 'restable');
 
-        // $this->app['restable'] = $this->app->share(function($app)
-        // {
-        //     $response = $app['Illuminate\Contracts\Routing\ResponseFactory'];
-
-        //     return new Restable($app['config'], $response, new Format);
-        // });
-
-        $this->app->singleton('Teepluss\Restable\Contracts\Restable', function($app)
+        // Binding restable.
+        $this->app->singleton('restable', function($app)
         {
             $response = $app['Illuminate\Contracts\Routing\ResponseFactory'];
 
             return new Restable($app['config'], $response, new Format);
         });
+
+        // Add contract.
+        $this->app->alias('restable', 'Teepluss\Restable\Contracts\Restable');
     }
 
     /**
@@ -59,7 +56,7 @@ class RestableServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array('Teepluss\Restable\Contracts\Restable');
+        return array('restable');
     }
 
 }
