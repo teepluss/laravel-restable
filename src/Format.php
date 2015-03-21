@@ -118,7 +118,7 @@ class Format {
             if (is_numeric($key))
             {
                 // make string key...
-                $key = (\Str::singular($basenode) != $basenode) ? \Str::singular($basenode) : 'item';
+                $key = (Pluralizer::singular($basenode) != $basenode) ? Pluralizer::singular($basenode) : 'item';
             }
 
             // replace anything not alpha numeric

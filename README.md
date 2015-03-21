@@ -46,22 +46,29 @@ php artisan vendor:publish
 
 ## Usage
 
-Create reponses format for RESTful.
+API RESTful format.
 
 Example:
 ~~~php
+
+use Teepluss\Restable\Contracts\Restable;
+
 class ApiBlogsController extends BaseController {
+
+    protected $rest;
 
     /**
      * Checking permission.
      *
      * @return Response
      */
-    public function __construct()
+    public function __construct(Restable $rest)
     {
+        $this->rest = $rest;
+
         if ( ! Input::get('secret') == '12345')
         {
-            return Restable::unauthorized()->render();
+            return $this->rest->unauthorized()->render();
         }
     }
 
@@ -73,13 +80,13 @@ class ApiBlogsController extends BaseController {
     public function index()
     {
         // Set default response format.
-        //Restable::setDefaultFormat('xml');
+        //$this->rest->setDefaultFormat('xml');
 
         // Override format response.
-        //return Restable::listing(Blog::paginate())->to('xml');
-        //return Restable::listing(Blog::paginate())->toXML();
+        //return $this->rest->listing(Blog::paginate())->to('xml');
+        //return $this->rest->listing(Blog::paginate())->toXML();
 
-        return Restable::listing(Blog::paginate())->render();
+        return $this->rest->listing(Blog::paginate())->render();
     }
 
     /**
@@ -108,7 +115,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::unprocess($validator)->render();
+            return $this->rest->unprocess($validator)->render();
         }
 
         $blog->title = Input::get('title');
@@ -116,7 +123,7 @@ class ApiBlogsController extends BaseController {
 
         $blog->save();
 
-        return Restable::created($blog)->render();
+        return $this->rest->created($blog)->render();
     }
 
     /**
@@ -131,10 +138,10 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing()->render();
+            return $this->rest->missing()->render();
         }
 
-        return Restable::single($blog)->render();
+        return $this->rest->single($blog)->render();
     }
 
     /**
@@ -149,7 +156,7 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing()->render();
+            return $this->rest->missing()->render();
         }
 
         return View::make('api.blogs.edit', compact('blog'));
@@ -167,7 +174,7 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing()->render();
+            return $this->rest->missing()->render();
         }
 
         $validator = Validator::make(Input::all(), array(
@@ -177,7 +184,7 @@ class ApiBlogsController extends BaseController {
 
         if ($validator->fails())
         {
-            return Restable::unprocess($validator)->render();
+            return $this->rest->unprocess($validator)->render();
         }
 
         $blog->title = Input::get('title');
@@ -185,7 +192,7 @@ class ApiBlogsController extends BaseController {
 
         $blog->save();
 
-        return Restable::updated($blog)->render();
+        return $this->rest->updated($blog)->render();
     }
 
     /**
@@ -200,12 +207,12 @@ class ApiBlogsController extends BaseController {
 
         if ( ! $blog)
         {
-            return Restable::missing()->render();
+            return $this->rest->missing()->render();
         }
 
         $blog->delete();
 
-        return Restable::deleted()->render();
+        return $this->rest->deleted()->render();
     }
 
 }

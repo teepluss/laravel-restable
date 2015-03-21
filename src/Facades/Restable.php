@@ -9,6 +9,6 @@ class Restable extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'restable'; }
+    protected static function getFacadeAccessor() { return 'Teepluss\Restable\Contracts\Restable'; }
 
 }

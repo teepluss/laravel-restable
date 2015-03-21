@@ -3,10 +3,11 @@
 use Teepluss\Restable\Format;
 use Illuminate\Config\Repository;
 use Illuminate\Support\MessageBag;
-use Illuminate\Support\Contracts\MessageProviderInterface;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Support\Contracts\MessageProviderInterface;
+use Teepluss\Restable\Contracts\Restable as RestableContract;
 
-class Restable {
+class Restable implements RestableContract {
 
     /**
      * Repository config.
@@ -375,17 +376,6 @@ class Restable {
         $response->header('Content-Type', $data['type']);
 
         return $response;
-    }
-
-    /**
-     * Alias of render.
-     *
-     * @param  string $format
-     * @return mixed
-     */
-    public function to($format, $callback = null)
-    {
-        return $this->render($format, $callback);
     }
 
     /**
